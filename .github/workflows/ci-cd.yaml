@@ -1,7 +1,7 @@
 name: CI/CD Pipeline
 on:
   push:
-    branches: [main, develop]
+    branches: [main, master, develop]
 
 env:
   AWS_REGION: ap-south-1
@@ -19,7 +19,7 @@ jobs:
         id: meta
         run: |
           TAG="${GITHUB_SHA::8}"
-          ENV=$([ "$GITHUB_REF_NAME" = "main" ] && echo "prod" || echo "dev")
+          ENV=$([ "$GITHUB_REF_NAME" = "main" ] || [ "$GITHUB_REF_NAME" = "master" ] && echo "prod" || echo "dev")
           echo "tag=$TAG" >> $GITHUB_OUTPUT
           echo "env=$ENV" >> $GITHUB_OUTPUT
 
